@@ -1,0 +1,180 @@
+#include<conio.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+typedef int Itemtype;
+struct Snode
+{
+	Itemtype data;
+	Snode *Next;
+};
+struct Slist
+{
+	Snode *Head;
+	Snode *Tail;
+};
+Snode *createSnode(int x);
+int insertHead(Slist &sl, Snode *p);
+int insertTail(Slist &sl, Snode *p);
+int isEmty(Slist sl);
+int deleteHead(Slist &sl, Itemtype &x);
+int deleteTail(Slist &sl, Itemtype &x);
+void initSList(Slist &sl);
+void showSNode(Snode *p);
+void Output(Slist sl);
+void Slist_random(Slist &sl, int &n);
+void readFile(FILE *fi);
+void writeFile(FILE *fo);
+int main()
+{
+	Slist sl;
+	int n;
+	Itemtype x;
+	//initSList(sl);
+	Slist_random(sl, n);
+	Output(sl);
+	if (deleteHead(sl, x) == 1)
+	{
+		printf("\nDanh sach sau khi xoa phan tu dau %d là: ", x);
+		Output(sl);
+	}
+	/*if (deleteTail(sl, x) == 1)
+	{
+	printf("Danh sach sau khi xoa phan tu cuoi %d là: ", x);
+	Output(sl);
+	}*/
+	_getch();
+}
+void initSList(Slist &sl)
+{
+	sl.Head = NULL;
+	sl.Tail = NULL;
+}
+Snode *createSnode(int x)
+{
+	Snode *p = new Snode;
+	if (p == NULL)
+	{
+		printf("Khong the cap phat node");
+		return NULL;
+	}
+	else
+	{
+		p->data = x;
+		p->Next = NULL;
+	}
+	return p;
+}
+int isEmty(Slist sl)
+{
+	return sl.Head == NULL;
+}
+int insertHead(Slist &sl, Snode *p)
+{
+	if (p == NULL)
+	{
+		return NULL;
+	}
+	if (isEmty(sl))
+	{
+		sl.Head = sl.Tail = p;
+	}
+	else
+	{
+		p->Next = sl.Head;
+		sl.Head = p;
+	}
+	return 1;
+}
+int insertTail(Slist &sl, Snode *p)
+{
+	if (p == NULL)
+	{
+		return NULL;
+	}
+	if (isEmty(sl))
+	{
+		sl.Head = sl.Tail = p;
+	}
+	else
+	{
+		sl.Tail->Next = p;
+		sl.Tail = p;
+	}
+	return 1;
+}
+void showSNode(Snode *p)
+{
+	printf("\t%d", p->data);
+}
+void Output(Slist sl)
+{
+	printf("\nDanh sach lien ket khi them vao dau: ");
+	for (Snode *k = sl.Head; k != NULL; k = k->Next)
+	{
+		printf("\t%d", k->data);
+	}
+}
+void NhapmangsoNguyen(int &n)
+{
+
+	srand((unsigned)time(NULL));
+	do
+	{
+
+		printf("So luong phan tu: ");
+		scanf("%d", &n);
+		if (n < 0)
+		{
+			printf("Nhap lai so luong phan tu (>0)\n ");
+		}
+	} while (n < 0);
+}
+void Slist_random(Slist &sl, int &n)
+{
+
+	int a = -99, b = 99;
+	initSList(sl);
+
+	NhapmangsoNguyen(n);
+	printf("Danh sach lien ket don: ");
+	for (int i = 0; i < n; i++)
+	{
+		Itemtype x = rand() % (b - a + 1) + a;
+		Snode *p = createSnode(x);
+		if (insertHead(sl, p) == 1)
+			showSNode(p);
+	}
+}
+int deleteHead(Slist &sl, Itemtype &x)
+{
+	if (isEmty(sl))
+		return 0;
+	Snode *p = sl.Head;
+	sl.Head = sl.Head->Next;
+	if (sl.Head == NULL)
+		sl.Tail = NULL;
+	x = p->data;
+	delete p;
+	return 1;
+}
+int deleteTail(Slist &sl, Itemtype &x)
+{
+
+	Snode *p = sl.Tail;// khởi tạo 1 cái node thế mạng cho là tail node
+	if (isEmty(sl))
+	{
+		sl.Head = sl.Tail = NULL;
+	}
+	else
+	{
+		Snode *k = sl.Head;
+		for (k; k->Next != sl.Tail; k = k->Next);
+
+		sl.Tail = k;// con trỏ k (là nút áp cuối trỏ ) thành node cuối
+		sl.Tail->Next = NULL;
+	}
+	x = p->data;
+	delete p;
+	return 1;
+}
