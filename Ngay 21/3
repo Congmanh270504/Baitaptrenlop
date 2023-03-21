@@ -1,0 +1,459 @@
+#include<conio.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+typedef int Itemtype;
+struct StackNode
+{
+	Itemtype data;
+	StackNode *Next;
+};
+struct Stack
+{
+	StackNode *Top;
+};
+
+StackNode *createStackNode(int x);
+int Push(Stack &s, StackNode *p);
+int Pop(Stack &s, Itemtype &x);
+int isEmty(Stack s);
+void NhapsoNguyenduong(int &n);
+void initStack(Stack &s);
+void showStackNode(StackNode *p);
+void Output(Stack s);
+void Stack_DoiCoSo(int n, int a);
+char getCharBase(int n);
+int main()
+{
+	Stack s;
+	int n, a;
+	Itemtype x;
+	//initStack(s);
+	NhapsoNguyenduong(n);
+	do
+	{
+		printf("Doi co so sang dang : ");
+		scanf("%d", &a);
+		if (a <= 1)
+		{
+			printf("Khong doi duoc!!Moi nhap lai ");
+		}
+	} while (a <= 1);
+
+	Stack_DoiCoSo(n, a);
+	_getch();
+}
+void NhapsoNguyenduong(int &n)
+{
+	do
+	{
+		printf("Nhap so muon quy doi(He 10): ");
+		scanf("%d", &n);
+		if (n < 0)
+		{
+			printf("Nhap lai n!! ");
+		}
+	} while (n < 0);
+}
+void initStack(Stack &s)
+{
+	s.Top = NULL;
+
+}
+StackNode *createStackNode(int x)
+{
+	StackNode *p = new StackNode;
+	if (p == NULL)
+	{
+		printf("Khong the cap phat node");
+		return NULL;
+	}
+	else
+	{
+		p->data = x;
+		p->Next = NULL;
+	}
+	return p;
+}
+int isEmty(Stack s)
+{
+	return s.Top == NULL;
+}
+int Push(Stack &s, StackNode *p)
+{
+	if (p == NULL)
+	{
+		return NULL;
+	}
+	if (isEmty(s))
+	{
+		s.Top = p;
+	}
+	else
+	{
+		p->Next = s.Top;
+		s.Top = p;
+	}
+	return 1;
+}
+int Pop(Stack &s, Itemtype &x)
+{
+	if (isEmty(s))
+		return 0;
+	StackNode *p = s.Top;
+	s.Top = s.Top->Next;
+	x = p->data;
+	delete p;
+	return 1;
+}
+void showStackNode(StackNode *p)
+{
+	printf("\t%d", p->data);
+}
+void Output(Stack s)
+{
+	printf("\nDanh sach lien ket khi them vao dau: ");
+	for (StackNode *k = s.Top; k != NULL; k = k->Next)
+	{
+		printf("\t%d", k->data);
+	}
+}
+
+void Stack_DoiCoSo(int n, int a)
+{
+	Stack s;
+	int sodu, x, tmp = n;
+	initStack(s);
+	while (tmp>0)
+	{
+		sodu = tmp%a;
+		tmp /= a;
+		StackNode *p = createStackNode(sodu);
+		Push(s, p);
+	}
+	printf("Ket qua doi co so %d tu he 10 sang he %d la : ", tmp, a);
+	while (!isEmty(s))
+	{
+		if (Pop(s, x) == 1)
+			printf("%c", getCharBase(x));
+	}
+}
+char getCharBase(int n)
+{
+	if (n < 10)
+		return n + 48;
+	else
+		return n + 55;
+}
+================================================= Biểu thức dấu===============================================================
+#include<conio.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+typedef char Itemtype;
+struct StackNode
+{
+	Itemtype data;
+	StackNode *Next;
+};
+struct Stack
+{
+	StackNode *Top;
+};
+
+StackNode *createStackNode(int x);
+int Push(Stack &s, StackNode *p);
+int Pop(Stack &s, Itemtype &x);
+int isEmty(Stack s);
+void NhapsoNguyenduong(int &n);
+void initStack(Stack &s);
+void showStackNode(StackNode *p);
+void Output(Stack s);
+bool Stack_KiemtraNgoac(char *strExp);
+char getCharBase(int n);
+int main()
+{
+	char *strExp = "()[{]}([})";
+	Stack s;
+	int n, a;
+
+	if (Stack_KiemtraNgoac(strExp) == true)
+
+		printf("Bieu thuc dung ");
+	else
+		printf("Bieu thuc sai");
+	_getch();
+}
+void NhapsoNguyenduong(int &n)
+{
+	do
+	{
+		printf("Nhap so muon quy doi(He 10): ");
+		scanf("%d", &n);
+		if (n < 0)
+		{
+			printf("Nhap lai n!! ");
+		}
+	} while (n < 0);
+}
+void initStack(Stack &s)
+{
+	s.Top = NULL;
+
+}
+StackNode *createStackNode(int x)
+{
+	StackNode *p = new StackNode;
+	if (p == NULL)
+	{
+		printf("Khong the cap phat node");
+		return NULL;
+	}
+	else
+	{
+		p->data = x;
+		p->Next = NULL;
+	}
+	return p;
+}
+int isEmty(Stack s)
+{
+	return s.Top == NULL; // nếu s.Top==NULL thì trả về 1 còn !=NULL trả về 0
+}
+int Push(Stack &s, StackNode *p)
+{
+	if (p == NULL)
+	{
+		return NULL;
+	}
+	if (isEmty(s))
+	{
+		s.Top = p;
+	}
+	else
+	{
+		p->Next = s.Top;
+		s.Top = p;
+	}
+	return 1;
+}
+int Pop(Stack &s, Itemtype &x)
+{
+	if (isEmty(s))
+		return 0;
+	StackNode *p = s.Top;
+	s.Top = s.Top->Next;
+	x = p->data;
+	delete p;
+	return 1;
+}
+void showStackNode(StackNode *p)
+{
+	printf("\t%d", p->data);
+}
+void Output(Stack s)
+{
+	printf("\nDanh sach lien ket khi them vao dau: ");
+	for (StackNode *k = s.Top; k != NULL; k = k->Next)
+	{
+		printf("\t%d", k->data);
+	}
+}
+
+bool Stack_KiemtraNgoac(char *strExp)
+{ // Hàm kiểm tra biểu thức có đúng hay không? 
+	
+	Stack s;
+	initStack(s);
+
+	for (int i = 0; strExp[i] != '\0'; i++)
+	{
+		if (strExp[i] == '(' || strExp[i] == '{' || strExp[i] == '[')
+		{
+			StackNode *p = createStackNode(strExp[i]);
+			Push(s, p);
+		}
+		else if (strExp[i] == ')' || strExp[i] == '}' || strExp[i] == ']')
+		{
+			char tmp;
+			if (Pop(s, tmp) == 1)
+			{
+				if (strExp[i] == ')' && tmp != '(') return false;
+				else if (strExp[i] == '}' && tmp != '{') return false;
+				else if (strExp[i] == ']' && tmp != '[') return false;
+			}
+			else
+				return false;
+		}
+	}
+	if (isEmty == 0)
+	{
+		return false;
+	}
+	return true;
+}
+char getCharBase(int n)
+{
+	if (n < 10)
+		return n + 48;
+	else
+		return n + 55;
+}
+
+================================================= Queue===============================================================
+#include<conio.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+typedef int Itemtype;
+struct QueueNode
+{
+	Itemtype data;
+	QueueNode *Next;
+};
+struct Queue
+{
+	QueueNode *Head;
+	QueueNode *Tail;
+};
+QueueNode *createQueueNode(int x);
+int Insert(Queue &qu, QueueNode *p);
+int isEmty(Queue qu);
+int remove(Queue &qu, Itemtype &x);
+void initQueue(Queue &qu);
+void showQueueNode(QueueNode *p);
+void NhapsoNguyenduong(int &n);
+void Output(Queue qu);
+void Queue_random(Queue &qu, int &n);
+int main()
+{
+	Queue qu;
+	int n;
+
+	Queue_random(qu, n);
+	_getch();
+}
+void initQueue(Queue &qu)
+{
+	qu.Head = NULL;
+	qu.Tail = NULL;
+}
+QueueNode *createQueueNode(int x)
+{
+	QueueNode *p = new QueueNode;
+	if (p == NULL)
+	{
+		printf("Khong the cap phat QueueNode");
+		return NULL;
+	}
+	else
+	{
+		p->data = x;
+		p->Next = NULL;
+	}
+	return p;
+}
+int isEmty(Queue qu)
+{
+	return qu.Head == NULL;
+}
+
+int Insert(Queue &qu, QueueNode *p)
+{
+	if (p == NULL)
+	{
+		return NULL;
+	}
+	if (isEmty(qu))
+	{
+		qu.Head = qu.Tail = p;
+	}
+	else
+	{
+		qu.Tail->Next = p;
+		qu.Tail = p;
+	}
+	return 1;
+}
+void showQueueNode(QueueNode *p)
+{
+	printf("\t%d", p->data);
+}
+void Output(Queue qu)
+{
+	printf("\nHang doi: ");
+	for (QueueNode *k = qu.Head; k != NULL; k = k->Next)
+	{
+		printf("\t%d", k->data);
+	}
+}
+void NhapmangsoNguyen(int &n)
+{
+
+	srand((unsigned)time(NULL));
+	do
+	{
+
+		printf("So luong phan tu: ");
+		scanf("%d", &n);
+		if (n < 0)
+		{
+			printf("Nhap lai so luong phan tu (>0)\n ");
+		}
+	} while (n < 0);
+}
+void Queue_random(Queue &qu, int &n)
+{
+	Itemtype x;
+	int a = -99, b = 99;
+	initQueue(qu);
+	NhapmangsoNguyen(n);
+	srand((unsigned)time(NULL));
+	int i = 0;
+	while (i < n)
+	{
+		if (rand() % 2 == 0)
+		{// Thêm cuối
+			x = rand() % (b - a + 1) + a;
+			QueueNode *p = createQueueNode(x);
+			if (Insert(qu, p) == 1)
+				showQueueNode(p);
+			i++;
+		}
+		else if (remove(qu, x) == 1)
+		{
+			// Xóa đầu
+			printf("Hang doi sau khi xoa %d la : ", &x);
+			showQueueNode(qu);// Lỗi cần sửa 
+			
+		}
+
+	}
+
+}
+int remove(Queue &qu, Itemtype &x)
+{
+	if (isEmty(qu))
+		return 0;
+	QueueNode *p = qu.Head;
+	qu.Head = qu.Head->Next;
+	if (qu.Head == NULL)
+		qu.Tail = NULL;
+	x = p->data;
+	delete p;
+	return 1;
+}
+
+void NhapsoNguyenduong(int &n)
+{
+	do
+	{
+		printf("Nhap so luong phan tu (>0): ");
+		scanf("%d", &n);
+		if (n < 0)
+		{
+			printf("Nhap lai n!! ");
+		}
+	} while (n < 0);
+}
+
